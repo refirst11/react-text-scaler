@@ -1,0 +1,47 @@
+.slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px black;
+  border-radius: 2px;
+}
+
+.sliderHandle {
+  display: block;
+  border: gray 1px solid;
+  border-radius: 50%;
+}
+
+.t {
+  position: fixed;
+  right: 340px;
+  bottom: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.t:hover {
+  cursor: pointer;
+}
+
+.center {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -20px;
+}
+
+.visible {
+  transition-duration: 0.2s;
+  transform: scale(1) translateY(-20px);
+}
+
+.hidden {
+  transition-duration: 0.2s;
+  transform: scale(0);
+}
