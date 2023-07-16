@@ -1,9 +1,14 @@
 {
   "name": "react-text-scaler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "UI and accessibility support scalling text size",
-  "main": "index.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/su-pull/react-text-scaler",
+    "directory": "react-text-scaler/src"
+  },
   "scripts": {
     "test": "test",
     "compile": "tsc && npm run copy-css",
