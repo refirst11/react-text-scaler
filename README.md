@@ -16,11 +16,12 @@ const MyComponent = () => {
 
 ## Properties
 
-| Property            | Meaning                                                        |
-| ------------------- | -------------------------------------------------------------- |
-| pathname (required) | The current dynamically obtained pathname used for font sizing |
-| target (required)   | The scaling target element by tag, className or id             |
-| sliderColor         | Sets the color of the slider                                   |
-| sliderBorderColor   | Sets the border color of the slider                            |
-| handleColor         | Sets the color of the handle                                   |
-| handleBorderColor   | Sets the border color of the handle                            |
+| Property          | Meaning                                                     |
+| ----------------- | ----------------------------------------------------------- |
+| target (required) | The scaling target element by tag, className or id          |
+| pathname          | The dynamic pathname to render when placing at layout level |
+| className         | Set the className of the TextScaler cmponent                |
+| sliderColor       | Set the color of the slider                                 |
+| sliderBorderColor | Set the border color of the slider                          |
+| handleColor       | Set the color of the handle                                 |
+| handleBorderColor | Set the border color of the handle                          |
