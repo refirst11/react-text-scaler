@@ -8,8 +8,9 @@ import React, {
 import styles from './styles.module.css'
 
 type TextScalerProps = {
-  pathname: string
   target: string
+  pathname?: string
+  className?: string
   sliderColor?: string
   sliderBorderColor?: string
   handleColor?: string
@@ -19,6 +20,7 @@ type TextScalerProps = {
 export const TextScaler = ({
   pathname,
   target,
+  className,
   sliderColor,
   sliderBorderColor,
   handleColor,
@@ -165,10 +167,11 @@ export const TextScaler = ({
   const [visible, setVisible] = useState(false)
   const classes =
     styles.center + ' ' + (visible ? styles.visible : styles.hidden)
+  const classed = className + ' ' + styles.t
   return (
     <>
       <div
-        className={styles.t}
+        className={classed}
         onMouseEnter={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
       >

@@ -2,20 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 1px black;
   border-radius: 2px;
 }
 
 .sliderHandle {
-  display: block;
-  border: gray 1px solid;
   border-radius: 50%;
 }
 
 .t {
-  position: fixed;
-  right: 340px;
-  bottom: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
