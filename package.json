@@ -1,8 +1,9 @@
 {
   "name": "react-text-scaler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UI and accessibility support scalling text size",
   "main": "index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "test": "test",
     "compile": "tsc && npm run copy-css",
