@@ -9,6 +9,7 @@ import styles from './styles.module.css'
 
 type TextScalerProps = {
   target: string
+  size: number
   pathname?: string
   top?: boolean
   className?: string
@@ -20,6 +21,7 @@ type TextScalerProps = {
 
 export const TextScaler = ({
   target,
+  size,
   pathname,
   top = true,
   className,
@@ -32,17 +34,19 @@ export const TextScaler = ({
   const [isDragging, setIsDragging] = useState(false)
   const [initialX, setInitialX] = useState(0)
   const [touchStartX, setTouchStartX] = useState(0)
+  const scaleFactor = 64 / 2 / size
+  const fontSizeRatio = 1 / scaleFactor
 
   const handleSetCount = (delta: number) => {
     setCount(prevCount => {
-      const newValue = prevCount + delta * 0.2
-      const clampedValue = Math.min(Math.max(newValue, -4), 4)
+      const newValue = prevCount + delta * fontSizeRatio
+      const clampedValue = Math.min(Math.max(newValue, -size), size)
       return clampedValue
     })
   }
 
   const handleClickCount = (val: number) => {
-    const clampedValue = Math.min(Math.max(val, -4), 4)
+    const clampedValue = Math.min(Math.max(val, -size), size)
     setCount(clampedValue)
   }
 
@@ -129,13 +133,13 @@ export const TextScaler = ({
         setInitialX(e.clientX)
       }
     },
-    [isDragging, initialX]
+    [handleSetCount, initialX, isDragging]
   )
 
-  const handleTouchStart = (e: TouchEvent) => {
+  const handleTouchStart = useCallback((e: TouchEvent) => {
     const touch = e.touches[0]
     setTouchStartX(touch.clientX)
-  }
+  }, [])
 
   const handleTouchMove = useCallback(
     (e: TouchEvent) => {
@@ -144,7 +148,7 @@ export const TextScaler = ({
       handleSetCount(delta)
       setTouchStartX(touch.clientX)
     },
-    [touchStartX]
+    [handleSetCount, touchStartX]
   )
 
   const handleSliderClick = useCallback(
@@ -227,7 +231,7 @@ export const TextScaler = ({
         <div
           onClick={handleSliderClick}
           style={{
-            width: 50,
+            width: 64,
             height: 5,
             background: sliderColor,
             border: '1px solid ' + sliderBorderColor
@@ -241,7 +245,7 @@ export const TextScaler = ({
               height: 12,
               background: handleColor,
               border: '1px solid ' + handleBorderColor,
-              transform: `translateX(${count * 5}px)`
+              transform: `translateX(${count * scaleFactor}px)`
             }}
             className={styles.sliderHandle}
           />
