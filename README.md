@@ -29,8 +29,9 @@ const MyComponent = () => {
 | Property          | Meaning                                                     |
 | ----------------- | ----------------------------------------------------------- |
 | target (required) | The scaling target element by tag, className or id          |
+| size (required)   | The scale range size                                        |
 | pathname          | The dynamic pathname to render when placing at layout level |
-| top               | where the slider appears, default true                      |
+| top               | Where the slider appears, default true                      |
 | className         | Set the className of the TextScaler cmponent                |
 | sliderColor       | Set the color of the slider                                 |
 | sliderBorderColor | Set the border color of the slider                          |
