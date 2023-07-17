@@ -10,6 +10,7 @@ import styles from './styles.module.css'
 type TextScalerProps = {
   target: string
   pathname?: string
+  top?: boolean
   className?: string
   sliderColor?: string
   sliderBorderColor?: string
@@ -18,8 +19,9 @@ type TextScalerProps = {
 }
 
 export const TextScaler = ({
-  pathname,
   target,
+  pathname,
+  top = true,
   className,
   sliderColor,
   sliderBorderColor,
@@ -30,12 +32,18 @@ export const TextScaler = ({
   const [isDragging, setIsDragging] = useState(false)
   const [initialX, setInitialX] = useState(0)
   const [touchStartX, setTouchStartX] = useState(0)
+
   const handleSetCount = (delta: number) => {
     setCount(prevCount => {
-      const newValue = prevCount + delta * 0.25
+      const newValue = prevCount + delta * 0.2
       const clampedValue = Math.min(Math.max(newValue, -4), 4)
       return clampedValue
     })
+  }
+
+  const handleClickCount = (val: number) => {
+    const clampedValue = Math.min(Math.max(val, -4), 4)
+    setCount(clampedValue)
   }
 
   const ref1 = useRef<HTMLDivElement>(null)
@@ -49,6 +57,7 @@ export const TextScaler = ({
 
   useEffect(() => {
     const elements = document.querySelectorAll(target + ' *')
+    const text = document.querySelector('.' + styles.t)
     const fontSizeArray = []
 
     for (let i = 0; i < elements.length; i++) {
@@ -58,20 +67,35 @@ export const TextScaler = ({
       fontSizeArray.push(isNaN(fontSizeInPx) ? 14 : fontSizeInPx)
     }
 
+    if (text) {
+      const textComputedStyle = getComputedStyle(text)
+      const fontSizeOfText = parseFloat(textComputedStyle.fontSize)
+      fontSizeArray.push(isNaN(fontSizeOfText) ? 14 : fontSizeOfText)
+    }
+
     setFontSizes(fontSizeArray)
   }, [pathname, target])
 
   useLayoutEffect(() => {
     const elements = document.querySelectorAll(target + ' *')
-    if (elements)
-      for (let i = 0; i < elements.length; i++) {
-        const element = elements[i] as HTMLElement
-        const fontSizeInPx = fontSizes[i] + count
-        element.style.setProperty(
-          'font-size',
-          fontSizeInPx < 10 ? '10px' : fontSizeInPx + 'px'
-        )
-      }
+    const text = document.querySelector('.' + styles.t) as HTMLElement
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i] as HTMLElement
+      const fontSizeInPx = fontSizes[i] + count
+      element.style.setProperty(
+        'font-size',
+        fontSizeInPx < 10 ? '10px' : fontSizeInPx + 'px'
+      )
+    }
+
+    if (text) {
+      const fontSizeInPx = fontSizes[fontSizes.length - 1] + count
+      text.style.setProperty(
+        'font-size',
+        fontSizeInPx < 10 ? '10px' : fontSizeInPx + 'px'
+      )
+    }
   }, [count, fontSizes, target])
 
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -123,9 +147,21 @@ export const TextScaler = ({
     [touchStartX]
   )
 
+  const handleSliderClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      const sliderBar = e.currentTarget
+      const rect = sliderBar.getBoundingClientRect()
+      const clickedX = e.clientX - rect.left
+      const sliderWidth = sliderBar.clientWidth
+      const newValue = (clickedX / sliderWidth - 0.5) * 8
+      handleClickCount(newValue)
+    },
+    []
+  )
+
   useEffect(() => {
-    const elmHandle = ref1.current
-    const elmBox = ref2.current
+    const elmBox = ref1.current
+    const elmHandle = ref2.current
     elmBox?.addEventListener('wheel', handleWheel, { passive: true })
     elmHandle?.addEventListener('mousedown', handleMouseDown)
     document.addEventListener('mouseup', handleMouseUp)
@@ -150,7 +186,7 @@ export const TextScaler = ({
   ])
 
   useEffect(() => {
-    const elmBox = ref2.current
+    const elmBox = ref1.current
     elmBox?.addEventListener('mouseover', enterControll, { passive: false })
     elmBox?.addEventListener('mouseout', leaveControll)
     elmBox?.addEventListener('touchstart', enterControll, { passive: false })
@@ -165,41 +201,52 @@ export const TextScaler = ({
   }, [handleMouse, handleMouseDown, handleMouseUp])
 
   const [visible, setVisible] = useState(false)
-  const classes =
+  const classes1 = className + ' ' + styles.t
+  const classes2 =
     styles.center + ' ' + (visible ? styles.visible : styles.hidden)
-  const classed = className + ' ' + styles.t
+
   return (
-    <>
+    <div
+      className={classes1}
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => {
+        setVisible(false)
+        setIsDragging(false)
+      }}
+    >
+      T
       <div
-        className={classed}
-        onMouseEnter={() => setVisible(true)}
-        onMouseLeave={() => setVisible(false)}
+        ref={ref1}
+        style={{
+          width: 80,
+          height: 30,
+          marginTop: visible ? (top ? '-50px' : '50px') : '0'
+        }}
+        className={classes2}
       >
-        T
-        <div ref={ref2} style={{ width: 80, height: 30 }} className={classes}>
+        <div
+          onClick={handleSliderClick}
+          style={{
+            width: 50,
+            height: 5,
+            background: sliderColor,
+            border: '1px solid ' + sliderBorderColor
+          }}
+          className={styles.slider}
+        >
           <div
+            ref={ref2}
             style={{
-              width: 40,
-              height: 4,
-              background: sliderColor,
-              border: '1px solid ' + sliderBorderColor
+              width: 12,
+              height: 12,
+              background: handleColor,
+              border: '1px solid ' + handleBorderColor,
+              transform: `translateX(${count * 5}px)`
             }}
-            className={styles.slider}
-          >
-            <div
-              ref={ref1}
-              style={{
-                width: 12,
-                height: 12,
-                background: handleColor,
-                border: '1px solid ' + handleBorderColor,
-                transform: `translateX(${count * 4}px)`
-              }}
-              className={styles.sliderHandle}
-            />
-          </div>
+            className={styles.sliderHandle}
+          />
         </div>
       </div>
-    </>
+    </div>
   )
 }
