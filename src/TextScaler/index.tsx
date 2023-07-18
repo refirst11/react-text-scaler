@@ -157,7 +157,7 @@ export const TextScaler = ({
       const rect = sliderBar.getBoundingClientRect()
       const clickedX = e.clientX - rect.left
       const sliderWidth = sliderBar.clientWidth
-      const newValue = (clickedX / sliderWidth - 0.5) * 8
+      const newValue = (clickedX / sliderWidth - 0.5) * size * 2
       handleClickCount(newValue)
     },
     []
@@ -186,6 +186,7 @@ export const TextScaler = ({
     handleMouseDown,
     handleMouseUp,
     handleTouchMove,
+    handleTouchStart,
     handleWheel
   ])
 
@@ -224,7 +225,7 @@ export const TextScaler = ({
         style={{
           width: 80,
           height: 30,
-          marginTop: visible ? (top ? '-50px' : '50px') : '0'
+          marginTop: visible ? (top ? '-80px' : '80px') : '0'
         }}
         className={classes2}
       >
