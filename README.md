@@ -27,17 +27,18 @@ const MyComponent = () => {
 
 ## Properties
 
-| Property          | Meaning                                                     |
-| ----------------- | ----------------------------------------------------------- |
-| target (required) | The scaling target element by tag, className or id          |
-| size (required)   | The scale range pixel size                                  |
-| pathname          | The dynamic pathname to render when placing at layout level |
-| top               | Where the slider view position, default false               |
-| className         | Set the className of the TextScaler cmponent                |
-| sliderColor       | Set the color of the slider                                 |
-| sliderBorderColor | Set the border color of the slider                          |
-| handleColor       | Set the color of the handle                                 |
-| handleBorderColor | Set the border color of the handle                          |
+| Property          | Meaning                                                                       |
+| ----------------- | ----------------------------------------------------------------------------- |
+| target (required) | The scaling target element by tag, className or id                            |
+| size (required)   | The scale range pixel size                                                    |
+| pathname          | The dynamic pathname to render when placing at layout level                   |
+| center            | Where the slider view position at center, default false                       |
+| sliderPosition    | Where the slider view position top and bottom position if not centered number |
+| className         | Set the className of the TextScaler cmponent                                  |
+| sliderColor       | Set the color of the slider                                                   |
+| sliderBorderColor | Set the border color of the slider                                            |
+| handleColor       | Set the color of the handle                                                   |
+| handleBorderColor | Set the border color of the handle                                            |
 
 ## License
 
