@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This is a React component for text scalling accessibility.  
-Add or subtract values to existing px text, do not supported em and rem.
+Scale an existing pixel, em and rem are not supported.
 
 ## Installation
 
@@ -35,6 +35,9 @@ const MyComponent = () => {
 | center            | Where the slider view position at center, default false                       |
 | sliderPosition    | Where the slider view position top and bottom position if not centered number |
 | className         | Set the className of the TextScaler cmponent                                  |
+| border            | Set the css border                                                            |
+| boxShadow         | Set the css box-shadow                                                        |
+| backgroundColor   | Set the css background-color                                                  |
 | sliderColor       | Set the color of the slider                                                   |
 | sliderBorderColor | Set the border color of the slider                                            |
 | handleColor       | Set the color of the handle                                                   |
