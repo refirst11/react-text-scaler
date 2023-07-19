@@ -4,7 +4,8 @@
 [![Minzip Size](https://img.shields.io/bundlephobia/minzip/react-text-scaler)](https://bundlephobia.com/package/react-text-scaler)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This is a React component for text scalling accessibility.
+This is a React component for text scalling accessibility.  
+Add or subtract values to existing px text, do not supported em and rem.
 
 ## Installation
 
@@ -20,7 +21,7 @@ import { TextScaler } from 'react-text-scaler'
 const MyComponent = () => {
     const pathname = // useLocation...
 
-    return <TextScaler target="main" pathname={pathname} />
+    return <TextScaler target="main" size={4} />
 }
 ```
 
@@ -29,9 +30,9 @@ const MyComponent = () => {
 | Property          | Meaning                                                     |
 | ----------------- | ----------------------------------------------------------- |
 | target (required) | The scaling target element by tag, className or id          |
-| size (required)   | The scale range size                                        |
+| size (required)   | The scale range pixel size                                  |
 | pathname          | The dynamic pathname to render when placing at layout level |
-| top               | Where the slider appears, default true                      |
+| top               | Where the slider view position, default false               |
 | className         | Set the className of the TextScaler cmponent                |
 | sliderColor       | Set the color of the slider                                 |
 | sliderBorderColor | Set the border color of the slider                          |
