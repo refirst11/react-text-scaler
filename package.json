@@ -1,6 +1,6 @@
 {
   "name": "react-text-scaler",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "UI and accessibility support scalling text size",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -16,6 +16,7 @@
   },
   "keywords": [
     "text",
+    "font",
     "scaling",
     "accessibility"
   ],
