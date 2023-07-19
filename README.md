@@ -40,8 +40,8 @@ const MyComponent = () => {
 
 | Property          | Meaning                            |
 | ----------------- | ---------------------------------- |
-| sliderColor       | Set the color of the slider        |
-| sliderBorderColor | Set the border color of the slider |
+| color             | Set the color of the slider        |
+| borderColor       | Set the border color of the slider |
 | handleColor       | Set the color of the handle        |
 | handleBorderColor | Set the border color of the handle |
 
