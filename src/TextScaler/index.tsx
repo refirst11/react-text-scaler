@@ -7,11 +7,10 @@ import React, {
 } from 'react'
 import styles from './styles.module.css'
 
-type TextScalerProps = {
+type CommonProps = {
   target: string
   size: number
   pathname?: string
-  top?: boolean
   className?: string
   sliderColor?: string
   sliderBorderColor?: string
@@ -19,11 +18,24 @@ type TextScalerProps = {
   handleBorderColor?: string
 }
 
+type CenterProps = {
+  center: true
+  sliderPosition?: never
+}
+
+type SliderPositionProps = {
+  center?: false
+  sliderPosition: number
+}
+
+type TextScalerProps = CommonProps & (CenterProps | SliderPositionProps)
+
 export const TextScaler = ({
   target,
   size,
   pathname,
-  top = false,
+  center = false,
+  sliderPosition = 0,
   className,
   sliderColor,
   sliderBorderColor,
@@ -90,21 +102,24 @@ export const TextScaler = ({
   useLayoutEffect(() => {
     const elements = document.querySelectorAll(target + ' *')
     const text = document.querySelector('.' + styles.t) as HTMLElement
+    const scale = 1 + count / 10
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i] as HTMLElement
-      const fontSizeInPx = fontSizes[i] + count
+      const initialFontSize = fontSizes[i]
+      const scaleFontSize = initialFontSize * scale
       element.style.setProperty(
         'font-size',
-        fontSizeInPx < 10 ? '10px' : fontSizeInPx + 'px'
+        scaleFontSize < 10 ? '10px' : scaleFontSize + 'px'
       )
     }
 
     if (text) {
-      const fontSizeInPx = fontSizes[fontSizes.length - 1] + count
+      const initialFontSize = fontSizes[fontSizes.length - 1]
+      const scaleFontSize = initialFontSize * scale
       text.style.setProperty(
         'font-size',
-        fontSizeInPx < 10 ? '10px' : fontSizeInPx + 'px'
+        scaleFontSize < 10 ? '10px' : scaleFontSize + 'px'
       )
     }
   }, [count, fontSizes, target])
@@ -167,7 +182,7 @@ export const TextScaler = ({
       const rect = sliderBar.getBoundingClientRect()
       const clickedX = e.clientX - rect.left
       const sliderWidth = sliderBar.clientWidth
-      const newValue = (clickedX / sliderWidth - 0.5) * size * 2
+      const newValue = (clickedX / sliderWidth - 0.5) * size * 4
       handleClickCount(newValue)
     },
     [handleClickCount, size]
@@ -233,29 +248,34 @@ export const TextScaler = ({
     <div
       ref={ref1}
       className={classes1}
+      style={{
+        boxShadow:
+          center && visible ? 'none' : '0 0 2px -0.4px var(--color-shadow)'
+      }}
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => {
         setVisible(false)
         setIsDragging(false)
       }}
     >
-      T
+      {sliderPosition ? 'T' : !visible && 'T'}
       <div
+        onMouseDown={handleSliderMouseDown}
         ref={ref2}
         style={{
           width: visible ? 128 : 0,
-          height: visible ? 64 : 0
+          height: visible ? (!center ? Math.abs(sliderPosition) : 64) : 0
         }}
         className={classes2}
       >
         <div
-          onMouseDown={handleSliderMouseDown}
           style={{
             width: 64,
             height: 5,
             background: sliderColor,
             border: '1px solid ' + sliderBorderColor,
-            marginTop: top ? '-50px' : '50px'
+            marginTop: sliderPosition,
+            pointerEvents: visible ? 'auto' : 'none'
           }}
           className={styles.slider}
         >
@@ -266,7 +286,8 @@ export const TextScaler = ({
               height: 16,
               background: handleColor,
               border: '1px solid ' + handleBorderColor,
-              transform: `translateX(${count * scaleFactor}px)`
+              transform: `translateX(${count * scaleFactor}px)`,
+              pointerEvents: visible ? 'auto' : 'none'
             }}
             className={styles.sliderHandle}
           />
