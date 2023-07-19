@@ -23,7 +23,7 @@ export const TextScaler = ({
   target,
   size,
   pathname,
-  top = true,
+  top = false,
   className,
   sliderColor,
   sliderBorderColor,
@@ -37,21 +37,28 @@ export const TextScaler = ({
   const scaleFactor = 64 / 2 / size
   const fontSizeRatio = 1 / scaleFactor
 
-  const handleSetCount = (delta: number) => {
-    setCount(prevCount => {
-      const newValue = prevCount + delta * fontSizeRatio
-      const clampedValue = Math.min(Math.max(newValue, -size), size)
-      return clampedValue
-    })
-  }
+  const handleSetCount = useCallback(
+    (delta: number) => {
+      setCount(prevCount => {
+        const newValue = prevCount + delta * fontSizeRatio
+        const clampedValue = Math.min(Math.max(newValue, -size), size)
+        return clampedValue
+      })
+    },
+    [fontSizeRatio, size]
+  )
 
-  const handleClickCount = (val: number) => {
-    const clampedValue = Math.min(Math.max(val, -size), size)
-    setCount(clampedValue)
-  }
+  const handleClickCount = useCallback(
+    (val: number) => {
+      const clampedValue = Math.min(Math.max(val, -size), size)
+      setCount(clampedValue)
+    },
+    [size]
+  )
 
   const ref1 = useRef<HTMLDivElement>(null)
   const ref2 = useRef<HTMLDivElement>(null)
+  const ref3 = useRef<HTMLDivElement>(null)
 
   const [fontSizes, setFontSizes] = useState<number[]>([])
 
@@ -102,10 +109,13 @@ export const TextScaler = ({
     }
   }, [count, fontSizes, target])
 
-  const handleWheel = useCallback((e: WheelEvent) => {
-    const delta = e.deltaY * 0.1
-    handleSetCount(-delta)
-  }, [])
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      const delta = e.deltaY * 0.1
+      handleSetCount(-delta)
+    },
+    [handleSetCount]
+  )
 
   const enterControll = (e: Event) => {
     e.preventDefault()
@@ -151,7 +161,7 @@ export const TextScaler = ({
     [handleSetCount, touchStartX]
   )
 
-  const handleSliderClick = useCallback(
+  const handleSliderMouseDown = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const sliderBar = e.currentTarget
       const rect = sliderBar.getBoundingClientRect()
@@ -160,24 +170,33 @@ export const TextScaler = ({
       const newValue = (clickedX / sliderWidth - 0.5) * size * 2
       handleClickCount(newValue)
     },
-    []
+    [handleClickCount, size]
   )
 
   useEffect(() => {
-    const elmBox = ref1.current
-    const elmHandle = ref2.current
+    const tBox = ref1.current
+    const elmBox = ref2.current
+    const elmHandle = ref3.current
+    tBox?.addEventListener('wheel', handleWheel, { passive: true })
     elmBox?.addEventListener('wheel', handleWheel, { passive: true })
+    tBox?.addEventListener('mousedown', handleMouseDown)
     elmHandle?.addEventListener('mousedown', handleMouseDown)
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('mousemove', handleMouse)
+    tBox?.addEventListener('touchstart', handleTouchStart)
+    tBox?.addEventListener('touchmove', handleTouchMove)
     elmHandle?.addEventListener('touchstart', handleTouchStart)
     elmHandle?.addEventListener('touchmove', handleTouchMove)
 
     return () => {
+      tBox?.removeEventListener('wheel', handleWheel)
       elmBox?.removeEventListener('wheel', handleWheel)
+      tBox?.removeEventListener('mousedown', handleMouseDown)
       elmHandle?.removeEventListener('mousedown', handleMouseDown)
       document.removeEventListener('mouseup', handleMouseUp)
       document.removeEventListener('mousemove', handleMouse)
+      tBox?.removeEventListener('touchstart', handleTouchStart)
+      tBox?.removeEventListener('touchmove', handleTouchMove)
       elmHandle?.removeEventListener('touchstart', handleTouchStart)
       elmHandle?.removeEventListener('touchmove', handleTouchMove)
     }
@@ -191,7 +210,7 @@ export const TextScaler = ({
   ])
 
   useEffect(() => {
-    const elmBox = ref1.current
+    const elmBox = ref2.current
     elmBox?.addEventListener('mouseover', enterControll, { passive: false })
     elmBox?.addEventListener('mouseout', leaveControll)
     elmBox?.addEventListener('touchstart', enterControll, { passive: false })
@@ -212,6 +231,7 @@ export const TextScaler = ({
 
   return (
     <div
+      ref={ref1}
       className={classes1}
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => {
@@ -221,29 +241,29 @@ export const TextScaler = ({
     >
       T
       <div
-        ref={ref1}
+        ref={ref2}
         style={{
-          width: 80,
-          height: 30,
-          marginTop: visible ? (top ? '-80px' : '80px') : '0'
+          width: visible ? 128 : 0,
+          height: visible ? 64 : 0
         }}
         className={classes2}
       >
         <div
-          onClick={handleSliderClick}
+          onMouseDown={handleSliderMouseDown}
           style={{
             width: 64,
             height: 5,
             background: sliderColor,
-            border: '1px solid ' + sliderBorderColor
+            border: '1px solid ' + sliderBorderColor,
+            marginTop: top ? '-50px' : '50px'
           }}
           className={styles.slider}
         >
           <div
-            ref={ref2}
+            ref={ref3}
             style={{
-              width: 12,
-              height: 12,
+              width: 16,
+              height: 16,
               background: handleColor,
               border: '1px solid ' + handleBorderColor,
               transform: `translateX(${count * scaleFactor}px)`
