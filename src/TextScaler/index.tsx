@@ -31,6 +31,9 @@ export const TextScaler = ({
   className,
   sliderColor
 }: TextScalerProps) => {
+  const ref1 = useRef<HTMLDivElement>(null)
+  const ref2 = useRef<HTMLDivElement>(null)
+  const ref3 = useRef<HTMLDivElement>(null)
   const [count, setCount] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [initialX, setInitialX] = useState(0)
@@ -56,10 +59,6 @@ export const TextScaler = ({
     },
     [size]
   )
-
-  const ref1 = useRef<HTMLDivElement>(null)
-  const ref2 = useRef<HTMLDivElement>(null)
-  const ref3 = useRef<HTMLDivElement>(null)
 
   const [fontSizes, setFontSizes] = useState<number[]>([])
 
@@ -178,53 +177,53 @@ export const TextScaler = ({
   )
 
   useEffect(() => {
-    const tBox = ref1.current
-    const elmBox = ref2.current
-    const elmHandle = ref3.current
-    tBox?.addEventListener('wheel', handleWheel, { passive: true })
-    elmBox?.addEventListener('wheel', handleWheel, { passive: true })
-    tBox?.addEventListener('mousedown', handleMouseDown)
-    elmHandle?.addEventListener('mousedown', handleMouseDown)
+    const controle = ref1.current as HTMLDivElement
+    const box = ref2.current as HTMLDivElement
+    const handle = ref3.current as HTMLDivElement
+    controle.addEventListener('wheel', handleWheel, { passive: true })
+    box.addEventListener('wheel', handleWheel, { passive: true })
+    box.addEventListener('mousedown', handleMouseDown)
+    box.addEventListener('touchstart', handleTouchStart)
+    box.addEventListener('touchmove', handleTouchMove)
+    handle.addEventListener('touchstart', handleTouchStart)
+    handle.addEventListener('touchmove', handleTouchMove)
+    handle.addEventListener('mousedown', handleMouseDown)
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('mousemove', handleMouse)
-    tBox?.addEventListener('touchstart', handleTouchStart)
-    tBox?.addEventListener('touchmove', handleTouchMove)
-    elmHandle?.addEventListener('touchstart', handleTouchStart)
-    elmHandle?.addEventListener('touchmove', handleTouchMove)
 
     return () => {
-      tBox?.removeEventListener('wheel', handleWheel)
-      elmBox?.removeEventListener('wheel', handleWheel)
-      tBox?.removeEventListener('mousedown', handleMouseDown)
-      elmHandle?.removeEventListener('mousedown', handleMouseDown)
+      controle.removeEventListener('wheel', handleWheel)
+      box.removeEventListener('wheel', handleWheel)
+      box.removeEventListener('mousedown', handleMouseDown)
+      box.removeEventListener('touchstart', handleTouchStart)
+      box.removeEventListener('touchmove', handleTouchMove)
+      handle.removeEventListener('touchstart', handleTouchStart)
+      handle.removeEventListener('touchmove', handleTouchMove)
+      handle.removeEventListener('mousedown', handleMouseDown)
       document.removeEventListener('mouseup', handleMouseUp)
       document.removeEventListener('mousemove', handleMouse)
-      tBox?.removeEventListener('touchstart', handleTouchStart)
-      tBox?.removeEventListener('touchmove', handleTouchMove)
-      elmHandle?.removeEventListener('touchstart', handleTouchStart)
-      elmHandle?.removeEventListener('touchmove', handleTouchMove)
     }
   }, [
-    handleMouse,
+    handleWheel,
     handleMouseDown,
     handleMouseUp,
-    handleTouchMove,
     handleTouchStart,
-    handleWheel
+    handleTouchMove,
+    handleMouse
   ])
 
   useEffect(() => {
-    const elmBox = ref2.current
-    elmBox?.addEventListener('mouseover', enterControll, { passive: false })
-    elmBox?.addEventListener('mouseout', leaveControll)
-    elmBox?.addEventListener('touchstart', enterControll, { passive: false })
-    elmBox?.addEventListener('touchend', leaveControll)
+    const controle = ref1.current as HTMLDivElement
+    controle.addEventListener('mouseover', enterControll, { passive: false })
+    controle.addEventListener('mouseout', leaveControll)
+    controle.addEventListener('touchstart', enterControll, { passive: false })
+    controle.addEventListener('touchend', leaveControll)
 
     return () => {
-      elmBox?.removeEventListener('mouseover', enterControll)
-      elmBox?.removeEventListener('mouseout', leaveControll)
-      elmBox?.removeEventListener('touchstart', enterControll)
-      elmBox?.removeEventListener('touchend', leaveControll)
+      controle.removeEventListener('mouseover', enterControll)
+      controle.removeEventListener('mouseout', leaveControll)
+      controle.removeEventListener('touchstart', enterControll)
+      controle.removeEventListener('touchend', leaveControll)
     }
   }, [handleMouse, handleMouseDown, handleMouseUp])
 
@@ -240,6 +239,7 @@ export const TextScaler = ({
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => {
         setVisible(false)
+
         setIsDragging(false)
       }}
     >
@@ -249,7 +249,7 @@ export const TextScaler = ({
         ref={ref2}
         style={{
           width: visible ? 128 : 0,
-          height: visible ? Math.abs(sliderPosition) : 0
+          height: visible ? Math.abs(sliderPosition) + 48 : 0
         }}
         className={classes2}
       >
