@@ -122,6 +122,7 @@ export const TextScaler = ({
   )
 
   const handleReset = useCallback(() => {
+    setVisible(false)
     !hasMoving && setEntryCount(0)
   }, [hasMoving])
 
