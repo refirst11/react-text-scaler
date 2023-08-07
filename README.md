@@ -6,7 +6,7 @@
 
 This is React WEB component, for text scaling support accessibility.
 
-it's scale an existing pixel, em and rem are not supported and reading body font-size of style, set as default size, that's why please set body to font-size in style.
+It's scale an existing pixel, em and rem are not supported and reading body font-size of style, set as default size, that's why please set body to font-size in style.
 
 ## Installation
 
@@ -37,4 +37,4 @@ const MyComponent = () => {
 
 ## License
 
-MIT License.
+The MIT License.
