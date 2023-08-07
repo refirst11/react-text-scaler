@@ -1,27 +1,30 @@
-.slider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 5px;
-  border-radius: 2px;
-}
-
-.sliderHandle {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-}
-
-.t {
+.parent {
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
 }
 
-.t:hover {
-  cursor: pointer;
+.box {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter {
+  position: absolute;
+  margin-top: -36px;
+  margin-left: -2px;
+  white-space: nowrap;
+}
+
+.px {
+  font-size: 10px;
+}
+
+.sizeBigT {
+  font-size: 18px;
 }
 
 .center {
