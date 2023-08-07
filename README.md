@@ -4,8 +4,9 @@
 [![Minzip Size](https://img.shields.io/bundlephobia/minzip/react-text-scaler)](https://bundlephobia.com/package/react-text-scaler)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This is a React component for text scalling accessibility.  
-Scale an existing pixel, em and rem are not supported.
+This is React WEB component, for text scaling support accessibility.
+
+it's scale an existing pixel, em and rem are not supported and reading body font-size of style, set as default size, that's why please set body to font-size in style.
 
 ## Installation
 
@@ -19,32 +20,21 @@ npm install react-text-scaler
 import { TextScaler } from 'react-text-scaler'
 
 const MyComponent = () => {
-    const pathname = // useLocation...
-
-    return <TextScaler target="main" size={4} />
+  return <TextScaler size={12} />
 }
 ```
 
 ## Properties
 
-| Property          | Meaning                                                     |
-| ----------------- | ----------------------------------------------------------- |
-| target (required) | The scaling target element by tag, className or id          |
-| size (required)   | The scale range pixel size                                  |
-| pathname          | The dynamic pathname to render when placing at layout level |
-| sliderPosition    | Where the slider display position a top and bottom          |
-| className         | Set the className of the TextScaler cmponent                |
-| sliderColor       | Object in the SliderProperty                                |
-
-## SliderProperty Object
-
-| Property          | Meaning                            |
-| ----------------- | ---------------------------------- |
-| color             | Set the color of the slider        |
-| borderColor       | Set the border color of the slider |
-| handleColor       | Set the color of the handle        |
-| handleBorderColor | Set the border color of the handle |
+| Property          | Property Meaning                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| target (required) | The scaling target element by tag, className or id                                   |
+| size (required)   | The scale range for pixel size                                                       |
+| pathname          | The dynamic pathname to static render when placing at layout level                   |
+| className         | Set the className of the TextScaler cmponent as positioning and component text color |
+| classBox          | Set the className of a box size and border and box-shadow                            |
+| classSlider       | Set the className of the custmize a slider size and slider bacground color           |
 
 ## License
 
-MIT License
+MIT License.
