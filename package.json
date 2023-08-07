@@ -1,7 +1,7 @@
 {
   "name": "react-text-scaler",
-  "version": "1.0.2",
-  "description": "React Component library for text scaling accessibility",
+  "version": "1.0.3",
+  "description": "React Component library for text scaling accessibility.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
@@ -15,8 +15,9 @@
     "copy-css": "cp src/TextScaler/styles.module.css dist/TextScaler/styles.module.css"
   },
   "keywords": [
+    "react",
+    "component",
     "text",
-    "font",
     "scaling",
     "accessibility"
   ],
