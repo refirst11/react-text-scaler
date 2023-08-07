@@ -232,7 +232,12 @@ export const TextScaler = ({
         </div>
       )}
       <div ref={refSwipe} className={classesView}>
-        <span style={{ marginRight: visible ? 8 : 0 }}>T</span>
+        <span
+          className={styles.sizeSmallT}
+          style={{ marginRight: visible ? 8 : 0 }}
+        >
+          T
+        </span>
         <div className={classSlider} />
         <span
           className={styles.sizeBigT}
