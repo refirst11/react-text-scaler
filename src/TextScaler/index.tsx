@@ -39,6 +39,7 @@ export const TextScaler = ({
   const maxCountSize = size + initialSize
   const minValue = -offset
   const maxValue = size >= 14 ? size - offset : size
+  const exception = `:not(.${styles.parent} *)`
 
   // The Core functional.
   const handleSetCount = useCallback(
@@ -63,7 +64,7 @@ export const TextScaler = ({
   }, [pathname])
 
   useEffect(() => {
-    const elements = document.querySelectorAll(target + ' *')
+    const elements = document.querySelectorAll(target + ' *' + exception)
     const fontSizeArray = []
 
     for (let i = 0; i < elements.length; i++) {
@@ -74,12 +75,12 @@ export const TextScaler = ({
     }
 
     setSizes(fontSizeArray)
-  }, [pathname, target])
+  }, [exception, pathname, target])
 
   // The scaling the sizes values individually set a value.
   useEffect(() => {
     const scale = 1 + entryCount / 10 // use the entryCount variable.
-    const elements = document.querySelectorAll(target + ' *')
+    const elements = document.querySelectorAll(target + ' *' + exception)
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i] as HTMLElement
@@ -99,7 +100,7 @@ export const TextScaler = ({
     setInitialSize(bodySize) // mount the initialSize as factors calucration.
 
     return setApplyCount(Math.round(Math.min(bodySize * scale, maxCountSize)))
-  }, [entryCount, maxCountSize, sizes, target])
+  }, [exception, entryCount, maxCountSize, sizes, target])
 
   const handleTouchStart = useCallback((e: TouchEvent) => {
     const touch = e.touches[0]
