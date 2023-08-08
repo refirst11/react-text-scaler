@@ -192,24 +192,13 @@ export const TextScaler = ({
 
     const enterControll = (e: Event) => {
       e.preventDefault()
-      document.body.style.overflow = 'hidden'
-    }
-
-    const leaveControll = () => {
-      document.body.style.overflow = 'auto'
     }
 
     const controle = refParent.current as HTMLDivElement
-    controle.addEventListener('mouseover', enterControll, { passive: false })
-    controle.addEventListener('mouseout', leaveControll)
-    controle.addEventListener('touchstart', enterControll, { passive: false })
-    controle.addEventListener('touchend', leaveControll)
+    controle.addEventListener('touchmove', enterControll, { passive: false })
 
     return () => {
-      controle.removeEventListener('mouseover', enterControll)
-      controle.removeEventListener('mouseout', leaveControll)
-      controle.removeEventListener('touchstart', enterControll)
-      controle.removeEventListener('touchend', leaveControll)
+      controle.removeEventListener('touchmove', enterControll)
     }
   }, [isDragging])
 
