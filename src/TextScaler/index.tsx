@@ -153,27 +153,27 @@ export const TextScaler = ({
 
   // The entry of core handlers.
   useEffect(() => {
-    const controle = refParent.current as HTMLDivElement
+    const control = refParent.current as HTMLDivElement
     const box = refSwipe.current as HTMLDivElement
 
-    controle.addEventListener('touchstart', handleTouchStart)
+    control.addEventListener('touchstart', handleTouchStart)
     box.addEventListener('touchmove', handleTouchMove)
-    controle.addEventListener('touchend', handleReset)
+    control.addEventListener('touchend', handleReset)
 
-    controle.addEventListener('mouseup', handleReset)
-    controle.addEventListener('mousedown', handleMouseDown)
+    control.addEventListener('mouseup', handleReset)
+    control.addEventListener('mousedown', handleMouseDown)
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
 
     return () => {
       // mobile handle.
-      controle.removeEventListener('touchstart', handleTouchStart)
+      control.removeEventListener('touchstart', handleTouchStart)
       box.removeEventListener('touchmove', handleTouchMove)
-      controle.removeEventListener('touchend', handleReset)
+      control.removeEventListener('touchend', handleReset)
 
       // desktop handle.
-      controle.removeEventListener('mouseup', handleReset)
-      controle.removeEventListener('mousedown', handleMouseDown)
+      control.removeEventListener('mouseup', handleReset)
+      control.removeEventListener('mousedown', handleMouseDown)
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
@@ -186,7 +186,7 @@ export const TextScaler = ({
     handleTouchStart
   ])
 
-  // The controll start or end.
+  // The control start or end.
   useEffect(() => {
     document.body.style.cursor = isDragging ? 'grabbing' : 'auto'
 
@@ -194,11 +194,11 @@ export const TextScaler = ({
       e.preventDefault()
     }
 
-    const controle = refParent.current as HTMLDivElement
-    controle.addEventListener('touchmove', enterControl, { passive: false })
+    const control = refParent.current as HTMLDivElement
+    control.addEventListener('touchmove', enterControl, { passive: false })
 
     return () => {
-      controle.removeEventListener('touchmove', enterControl)
+      control.removeEventListener('touchmove', enterControl)
     }
   }, [isDragging])
 
