@@ -190,15 +190,15 @@ export const TextScaler = ({
   useEffect(() => {
     document.body.style.cursor = isDragging ? 'grabbing' : 'auto'
 
-    const enterControll = (e: Event) => {
+    const enterControl = (e: Event) => {
       e.preventDefault()
     }
 
     const controle = refParent.current as HTMLDivElement
-    controle.addEventListener('touchmove', enterControll, { passive: false })
+    controle.addEventListener('touchmove', enterControl, { passive: false })
 
     return () => {
-      controle.removeEventListener('touchmove', enterControll)
+      controle.removeEventListener('touchmove', enterControl)
     }
   }, [isDragging])
 
