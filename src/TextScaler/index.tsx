@@ -2,28 +2,24 @@ import React, { useState, useRef, useCallback, useEffect } from 'react'
 import styles from './styles.module.css'
 
 type TextScalerProps = {
-  target: string
-  size: number
-  pathname?: string
+  scaleRange: number
+  stickSize: number
   className?: string
-  classBox?: string
-  classSlider?: string
 }
 
 // Main functional,
 // this project of size variable is all font size value.
 export const TextScaler = ({
-  target,
-  size,
-  pathname,
-  className,
-  classBox,
-  classSlider
+  scaleRange,
+  stickSize,
+  className
 }: TextScalerProps) => {
+  const size = scaleRange
   const refParent = useRef<HTMLDivElement>(null)
   const refSwipe = useRef<HTMLDivElement>(null)
   const [sizes, setSizes] = useState<number[]>([])
   const [initialSize, setInitialSize] = useState(0)
+  const [initialColor, setInitialColor] = useState('')
   const [initialX, setInitialX] = useState(0)
   const [touchStartX, setTouchStartX] = useState(0)
   const [entryCount, setEntryCount] = useState(0)
@@ -58,13 +54,8 @@ export const TextScaler = ({
     [fontSizeRatio, initialSize, maxValue, minValue]
   )
 
-  // This calculation refreshing as static render.
   useEffect(() => {
-    setEntryCount(0)
-  }, [pathname])
-
-  useEffect(() => {
-    const elements = document.querySelectorAll(target + ' *' + exception)
+    const elements = document.querySelectorAll('main' + ' *' + exception)
     const fontSizeArray = []
 
     for (let i = 0; i < elements.length; i++) {
@@ -75,12 +66,12 @@ export const TextScaler = ({
     }
 
     setSizes(fontSizeArray)
-  }, [exception, pathname, target])
+  }, [exception])
 
   // The scaling the sizes values individually set a value.
   useEffect(() => {
     const scale = 1 + entryCount / 10 // use the entryCount variable.
-    const elements = document.querySelectorAll(target + ' *' + exception)
+    const elements = document.querySelectorAll('main' + ' *' + exception)
 
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i] as HTMLElement
@@ -97,10 +88,13 @@ export const TextScaler = ({
     const body = document.querySelector('body') as HTMLElement
     const computedStyleBody = getComputedStyle(body)
     const bodySize = parseFloat(computedStyleBody.fontSize)
+    const bodyTextColor = window
+      .getComputedStyle(body)
+      .getPropertyValue('color')
     setInitialSize(bodySize) // mount the initialSize as factors calucration.
-
+    setInitialColor(bodyTextColor) // initial body text color.
     return setApplyCount(Math.round(Math.min(bodySize * scale, maxCountSize)))
-  }, [exception, entryCount, maxCountSize, sizes, target])
+  }, [exception, entryCount, maxCountSize, sizes])
 
   const handleTouchStart = useCallback((e: TouchEvent) => {
     const touch = e.touches[0]
@@ -206,15 +200,18 @@ export const TextScaler = ({
 
   // entry classes group.
   const classesPparent = className + ' ' + styles.parent
-  const classesBox = classBox + ' ' + styles.box
-
   const classesView =
     styles.center + ' ' + (visible ? styles.visible : styles.hidden)
 
   // The return the next React component.
   return (
-    <div draggable="false" ref={refParent} className={classesPparent}>
-      {!visible && <div className={classesBox}>T</div>}
+    <div
+      draggable="false"
+      ref={refParent}
+      className={classesPparent}
+      style={{ border: visible ? 'none' : '' }}
+    >
+      {!visible && <div className={styles.box}>T</div>}
       {visible && (
         <div className={styles.counter}>
           {applyCount}
@@ -228,7 +225,10 @@ export const TextScaler = ({
         >
           T
         </span>
-        <div className={classSlider} />
+        <div
+          className={styles.stick}
+          style={{ background: visible ? initialColor : '', width: stickSize }}
+        />
         <span
           className={styles.sizeBigT}
           style={{ marginLeft: visible ? 8 : 0 }}
