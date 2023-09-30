@@ -4,9 +4,7 @@
 [![Minzip Size](https://img.shields.io/bundlephobia/minzip/react-text-scaler)](https://bundlephobia.com/package/react-text-scaler)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This is React WEB component, for text scaling support accessibility.
-
-It's scale an existing pixel, em and rem are not supported and reading body font-size of style, set as default size, that's why please set body to font-size in style.
+This is React component, for text scaling support mini and big text size readability.
 
 ## Installation
 
@@ -20,20 +18,22 @@ npm install react-text-scaler
 import { TextScaler } from 'react-text-scaler'
 
 const MyComponent = () => {
-  return <TextScaler size={12} />
+  return <TextScaler scaleRange={20} stickSize={10} />
 }
 ```
 
+## Instructions
+
+Renders the Based on font size of body the main element's texts.  
+Font size is Absolute values are supported.
+
 ## Properties
 
-| Property          | Property Meaning                                                                     |
-| ----------------- | ------------------------------------------------------------------------------------ |
-| target (required) | The scaling target element by tag, className or id                                   |
-| size (required)   | The scale range for pixel size                                                       |
-| pathname          | The dynamic pathname to static render when placing at layout level                   |
-| className         | Set the className of the TextScaler cmponent as positioning and component text color |
-| classBox          | Set the className of a box size and border and box-shadow                            |
-| classSlider       | Set the className of the custmize a slider size and slider bacground color           |
+| Property              | Property Meaning                             |
+| --------------------- | -------------------------------------------- |
+| scaleRange (required) | The scale range for px size                  |
+| stickSize (required)  | The stick width for number                   |
+| className             | Set the className of the TextScaler cmponent |
 
 ## License
 
