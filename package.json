@@ -1,6 +1,6 @@
 {
   "name": "react-text-scaler",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "React Component library for text scaling readability.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "test",
-    "compile": "tsc && npm run copy-css",
+    "compile": "npx tsc && npm run copy-css",
     "copy-css": "cp src/TextScaler/styles.module.css dist/TextScaler/styles.module.css"
   },
   "keywords": [
@@ -21,15 +21,11 @@
     "scaling",
     "readability"
   ],
-  "author": "S.Watanabe",
+  "author": "Refirst",
   "license": "MIT",
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "typescript": "^5.2.2"
-  },
   "devDependencies": {
-    "@types/css-modules": "^1.0.3",
-    "@types/react": "^18.2.23"
+    "typescript": "^5.2.2",
+    "@types/react": "^18.2.23",
+    "@types/css-modules": "^1.0.3"
   }
 }
